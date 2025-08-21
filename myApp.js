@@ -38,7 +38,7 @@ const createAndSavePerson = async (done) => {
   }
 };
 
-// Example usage
+/// Example usage
 createAndSavePerson((err, data) => {
   if (err) return console.error("Callback error:", err);
   console.log("Callback received saved person:", data);
