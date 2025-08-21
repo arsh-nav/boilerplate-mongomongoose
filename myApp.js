@@ -8,10 +8,12 @@ let personSchema = new mongoose.Schema({
   favoriteFoods: [String]
 });
 
-let person = new Person({name: "Ali", age: 28 , favoriteFoods:['pasta','pizza']});
+let Person = mongoose.model('Person', personSchema);
 const createAndSavePerson = (done) => {
-  let Person = mongoose.model('Person', personSchema);
+  
+  let person = new Person({name: "Ali", age: 28 , favoriteFoods:['pasta','pizza']});
   person.save(function(err, data) {
+  
   //   ...do your stuff here...
   if (err) return done(err);
   done(null, data);
