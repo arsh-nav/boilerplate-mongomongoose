@@ -39,10 +39,10 @@ const createAndSavePerson = async (done) => {
 };
 
 /// Example usage
-createAndSavePerson((err, data) => {
-  if (err) return console.error("Callback error:", err);
-  console.log("Callback received saved person:", data);
-});
+// createAndSavePerson((err, data) => {
+//   if (err) return console.error("Callback error:", err);
+//   console.log("Callback received saved person:", data);
+// });
 
 const createManyPeople = (arrayOfPeople, done) => {
   done(null /*, data*/);
