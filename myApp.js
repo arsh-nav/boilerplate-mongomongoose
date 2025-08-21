@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 /** 1) Install & Set up mongoose */
 
 
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 /** 2) Create a 'Person' Model */
 var personSchema = new mongoose.Schema({
