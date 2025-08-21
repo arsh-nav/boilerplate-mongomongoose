@@ -1,44 +1,28 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-// require('dotenv').config();
+/** 1) Install & Set up mongoose */
 
+const mongoose = require('mongoose');
+mongoose.connect(process.env.MONGO_URI);
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
-// Define the schema
-const personSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+/** 2) Create a 'Person' Model */
+var personSchema = new mongoose.Schema({
+  name: String,
   age: Number,
   favoriteFoods: [String]
 });
 
-// Create the model
-const Person = mongoose.model('Person', personSchema);
+/** 3) Create and Save a Person */
+var Person = mongoose.model('Person', personSchema);
 
-// Function to create and save a person
-const createAndSavePerson = (done) => {
-  const person = new Person({
-    name: "Ali",
-    age: 28,
-    favoriteFoods: ['pasta', 'pizza']
-  });
+var createAndSavePerson = function(done) {
+  var janeFonda = new Person({name: "Jane Fonda", age: 84, favoriteFoods: ["eggs", "fish", "fresh fruit"]});
 
-  person.save(function(err, data) {
-    if (err) return done(err);
-    done(null, data);
+  janeFonda.save(function(err, data) {
+    if (err) return console.error(err);
+    done(null, data)
   });
 };
-
-// Do NOT call createAndSavePerson here — FCC calls it for testing
-
-/// Example usage
-// createAndSavePerson((err, data) => {
-//   if (err) return console.error("Callback error:", err);
-//   console.log("Callback received saved person:", data);
-// });
 
 const createManyPeople = (arrayOfPeople, done) => {
   done(null /*, data*/);
