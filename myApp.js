@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 // Connect to MongoDB Atlas
+const mongoose = require('mongoose');
+
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log("Connected to MongoDB Atlas"))
-.catch(err => console.error("Connection error:", err));
+  useUnifiedTopology: true
+});
 
 // Define the schema
 const personSchema = new mongoose.Schema({
@@ -21,22 +21,20 @@ const personSchema = new mongoose.Schema({
 const Person = mongoose.model('Person', personSchema);
 
 // Function to create and save a person
-const createAndSavePerson = async (done) => {
-  try {
-    const person = new Person({
-      name: "Ali",
-      age: 28,
-      favoriteFoods: ['pasta', 'pizza']
-    });
-    
-    const savedPerson = await person.save();
-    console.log("Saved person:", savedPerson);
-    done(null, savedPerson);
-  } catch (err) {
-    console.error("Error saving person:", err);
-    done(err);
-  }
+const createAndSavePerson = (done) => {
+  const person = new Person({
+    name: "Ali",
+    age: 28,
+    favoriteFoods: ['pasta', 'pizza']
+  });
+
+  person.save(function(err, data) {
+    if (err) return done(err);
+    done(null, data);
+  });
 };
+
+// Do NOT call createAndSavePerson here — FCC calls it for testing
 
 /// Example usage
 // createAndSavePerson((err, data) => {
