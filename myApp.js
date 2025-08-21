@@ -1,24 +1,48 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+require('dotenv').config();
 
-let personSchema = new mongoose.Schema({
+// Connect to MongoDB Atlas
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("Connected to MongoDB Atlas"))
+.catch(err => console.error("Connection error:", err));
+
+// Define the schema
+const personSchema = new mongoose.Schema({
   name: { type: String, required: true },
   age: Number,
   favoriteFoods: [String]
 });
 
-let Person = mongoose.model('Person', personSchema);
-const createAndSavePerson = (done) => {
-  
-  let person = new Person({name: "Ali", age: 28 , favoriteFoods:['pasta','pizza']});
-  person.save(function(err, data) {
-  
-  //   ...do your stuff here...
-  if (err) return done(err);
-  done(null, data);
-});
+// Create the model
+const Person = mongoose.model('Person', personSchema);
+
+// Function to create and save a person
+const createAndSavePerson = async (done) => {
+  try {
+    const person = new Person({
+      name: "Ali",
+      age: 28,
+      favoriteFoods: ['pasta', 'pizza']
+    });
+    
+    const savedPerson = await person.save();
+    console.log("Saved person:", savedPerson);
+    done(null, savedPerson);
+  } catch (err) {
+    console.error("Error saving person:", err);
+    done(err);
+  }
 };
+
+// Example usage
+createAndSavePerson((err, data) => {
+  if (err) return console.error("Callback error:", err);
+  console.log("Callback received saved person:", data);
+});
 
 const createManyPeople = (arrayOfPeople, done) => {
   done(null /*, data*/);
